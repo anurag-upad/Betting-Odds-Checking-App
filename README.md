@@ -1,4 +1,4 @@
-# Odds Checker App
+# Sports Betting Odds Checker App
 A Java command-line application developed with Java (ver. 12), JUnit 5 and Maven using an existing public REST API to determine an event's odds changes:</br> https://eu-offering.kambicdn.org/offering/v2018/ubse/event/live/open.json</br></br>
 It will take the id of any event (match) as argument and as output onto the 
 console, prints the event name and current date time along with the "mainBetOffer" odds of that 
