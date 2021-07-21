@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.anurag</groupId>
+	<artifactId>odds-checker-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>OddsCheckerApp</name>
+	<description>Odds Checker App for Kambi</description>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<dependencies>
+		<!--  Dependency for JSON serialization/de-serialization -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.2</version>
+        </dependency>
+        
+        <!-- Dependency for JUnit 5 framework -->
+        <dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>5.5.2</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- Dependency for Mockito framework -->
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>2.21.0</version>
+		    <scope>test</scope>
+		</dependency>
+    </dependencies>
+
+	
+	<build>
+		<plugins>
+			<!-- Specify JDK version for maven-compiler-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>12</release>
+				</configuration>
+			</plugin>
+
+			<!-- Configure the maven-jar-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.anurag.odds.checker.OddsCheckerAppMain</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<!-- Configure maven-surefire-plugin to run our test classes using JUnit -->
+			<plugin>
+			    <artifactId>maven-surefire-plugin</artifactId>
+			    <version>2.19.1</version>
+			    <dependencies>
+			        <dependency>
+			             <groupId>org.junit.platform</groupId>
+			             <artifactId>junit-platform-surefire-provider</artifactId>
+			             <version>1.0.1</version>
+			         </dependency>
+			     </dependencies>
+			</plugin>
+			
+			<!-- Configure maven-shade-plugin to create fat jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<finalName>${project.name}</finalName>
+					<filters>
+                    <filter>
+                        <artifact>*:*</artifact>
+                        <excludes>
+                            <exclude>module-info.class</exclude>
+							<exclude>META-INF/**</exclude>
+                        </excludes>
+                    </filter>
+                </filters>
+                </configuration>
+				<executions>
+				 <!-- Run shade goal on package phase -->
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<!-- add Main-Class to manifest file -->
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>org.anurag.odds.checker.OddsCheckerAppMain</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		
+	</build>
+
+</project>
